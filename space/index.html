@@ -141,7 +141,9 @@
       #stage iframe {
         border: 0;
         background: #000;
+        align-self: center;
         width: min(100%, 680px);
+        max-width: 100%;
         height: min(80vh, 720px);
         border-radius: 6px;
       }
@@ -293,10 +295,39 @@
         background: rgba(31, 111, 235, 0.15);
       }
       @media (max-width: 760px) {
+        header {
+          padding: 12px 14px;
+          gap: 10px;
+        }
+        header h1 {
+          font-size: 16px;
+        }
+        .nav-cta {
+          width: 100%;
+          margin-left: 0;
+          justify-content: space-between;
+        }
+        .nav-cta span {
+          font-size: 12px;
+        }
+        .cta-link {
+          padding: 8px 14px;
+          font-size: 12px;
+        }
         .spec-panel {
           position: static;
           width: auto;
           margin: 16px;
+        }
+        #stage {
+          padding: 10px;
+        }
+        #stage iframe {
+          width: 100%;
+          height: min(70vh, 640px);
+        }
+        .card {
+          width: 100%;
         }
       }
 
