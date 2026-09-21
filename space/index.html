@@ -169,16 +169,27 @@
         transform: translateY(-2px);
         box-shadow: 0 8px 24px rgba(124, 77, 255, 0.4);
       }
-      .header-cta {
+      .nav-cta {
         margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+      .nav-cta span {
+        font-size: 13px;
+        color: #aab6d6;
       }
       /* Switcher bar (below the game window) */
       #switcher-bar {
-        display: flex;
+        display: none;
         justify-content: center;
         gap: 8px;
-        padding: 14px;
-        border-top: 1px solid #1e2b47;
+        padding: 12px;
+      }
+      body.playing #switcher-bar {
+        display: flex;
       }
       #cta-banner {
         width: 100%;
@@ -342,13 +353,16 @@
   <body>
     <header>
       <h1>🚀 Space Sims</h1>
-      <a
-        class="cta-link header-cta"
-        href="https://iii.dev/docs/install"
-        target="_blank"
-        rel="noopener"
-        >Get started with iii →</a
-      >
+      <div class="nav-cta">
+        <span>Want to build with the next generation of harnesses?</span>
+        <a
+          class="cta-link"
+          href="https://iii.dev/docs/install"
+          target="_blank"
+          rel="noopener"
+          >Get started with iii →</a
+        >
+      </div>
     </header>
 
     <div id="chooser">
@@ -447,6 +461,7 @@ Phase 6 - Polish and ship
         if (!GAMES[game]) return;
         chooser.style.display = "none";
         stage.style.display = "block";
+        document.body.classList.add("playing");
         loading.style.display = "flex";
 
         // Dynamically (re)create the iframe so each build starts fresh.
