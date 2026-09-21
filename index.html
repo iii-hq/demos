@@ -394,7 +394,33 @@
       <div class="modal">
         <button class="close" id="close-prompt" aria-label="Close">×</button>
         <h3>Prompt (identical for both builds)</h3>
-        <pre id="prompt-text">TODO: paste the exact prompt here.</pre>
+        <pre id="prompt-text">
+Build it yourself. Do not ask questions.
+
+Phase 0 - Decisions (you make these, 5 min)
+  • Stack: vanilla JS + HTML5 Canvas, single index.html + game.js. No framework, no build step.
+  • Style: vertical scroller (Galaga-style) or horizontal (Gradius-style). Pick one.
+  • Scope: 3 enemy types, 1 boss, 3 weapon levels, 1 stage. Expand later.
+
+Phase 1 - Skeleton
+  Prompt: "Create index.html and game.js with a 480x640 canvas, a fixed-timestep game loop (requestAnimationFrame, delta time), keyboard input handler (arrows/WASD, space, P for pause), and a scrolling starfield background. No gameplay yet."
+  Check:  opens in browser, stars scroll, no console errors.
+
+Phase 2 - Player
+  Prompt: "Add a player ship: moves within canvas bounds, fires bullets on space with a cooldown, bullets despawn off-screen. Use an entity list with update/draw methods and an object pool for bullets."
+
+Phase 3 - Enemies and collisions
+  Prompt: "Add three enemy types with distinct movement (straight, sine wave, dive-at-player) and a wave spawner driven by a timeline array. Add AABB collision: bullets kill enemies, enemies/enemy bullets damage player. Player has 3 lives and brief invulnerability after a hit."
+
+Phase 4 - Feedback and game states
+  Prompt: "Add score, HUD, particle explosions, screen shake, and a state machine: title -> playing -> paused -> game over (with restart). Add sound using Web Audio API with procedurally generated tones so no asset files are needed."
+
+Phase 5 - Depth
+  Prompt: "Add power-up drops (weapon upgrade, shield, bomb), a boss at the end of the wave timeline with 3 attack patterns and a health bar, and a high score saved to localStorage."
+
+Phase 6 - Polish and ship
+  Prompt: "Add sprite drawing via a small pixel-art atlas drawn in code or a single spritesheet PNG, difficulty scaling over time, mobile touch controls, and a 60fps sanity check. Then minify nothing - just confirm it runs as a static file."
+</pre>
       </div>
     </div>
 
