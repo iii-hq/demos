@@ -82,6 +82,9 @@
         padding: 32px;
         flex-wrap: wrap;
       }
+      body.playing #chooser {
+        display: none;
+      }
       .card {
         width: 300px;
         max-width: 90vw;
@@ -492,8 +495,6 @@ Phase 6 - Polish and ship
 
       function load(game) {
         if (!GAMES[game]) return;
-        chooser.style.display = "none";
-        stage.style.display = "block";
         document.body.classList.add("playing");
         loading.style.display = "flex";
 
