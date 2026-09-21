@@ -1,8 +1,8 @@
 {
-  "name": "space-sim",
+  "name": "iii-demos",
   "version": "1.0.0",
   "private": true,
-  "description": "Two space-sim builds (iii + claude) on one selectable page.",
+  "description": "iii demos - one website, each demo served from its own subfolder.",
   "scripts": {
     "dev": "vite . --open",
     "preview": "vite preview"

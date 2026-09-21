@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>iii demos</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+      body {
+        background: radial-gradient(circle at 50% 0%, #14203a 0%, #05070f 70%);
+        color: #e8ecf5;
+        font-family:
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          monospace;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      header {
+        padding: 18px 20px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        border-bottom: 1px solid #1e2b47;
+        flex-wrap: wrap;
+      }
+      header h1 {
+        font-size: 18px;
+        margin: 0;
+        letter-spacing: 0.5px;
+      }
+      .cta-link {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        background: linear-gradient(90deg, #2f6bff, #7c4dff);
+        color: #fff;
+        padding: 9px 18px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        transition:
+          transform 0.15s,
+          box-shadow 0.15s;
+      }
+      .cta-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(124, 77, 255, 0.4);
+      }
+      main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 24px;
+        padding: 40px 24px;
+      }
+      .demo-card {
+        display: block;
+        width: 320px;
+        max-width: 90vw;
+        background: #0e192e;
+        border: 1px solid #23324f;
+        border-radius: 14px;
+        padding: 26px;
+        text-decoration: none;
+        color: inherit;
+        transition:
+          transform 0.15s,
+          border-color 0.15s,
+          box-shadow 0.15s;
+      }
+      .demo-card:hover {
+        transform: translateY(-4px);
+        border-color: #2f6bff;
+        box-shadow: 0 12px 32px rgba(47, 107, 255, 0.25);
+      }
+      .demo-card .emoji {
+        font-size: 46px;
+      }
+      .demo-card h2 {
+        margin: 12px 0 6px;
+        font-size: 20px;
+      }
+      .demo-card p {
+        margin: 0;
+        font-size: 13px;
+        color: #90a0c4;
+        line-height: 1.5;
+      }
+      .demo-card .tag {
+        display: inline-block;
+        margin-top: 16px;
+        font-size: 11px;
+        color: #6f7fa6;
+        border: 1px solid #2a3c63;
+        border-radius: 999px;
+        padding: 3px 10px;
+      }
+      footer {
+        text-align: center;
+        padding: 18px;
+        font-size: 12px;
+        color: #6f7fa6;
+        border-top: 1px solid #1e2b47;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>✨ iii demos</h1>
+      <a
+        class="cta-link"
+        href="https://iii.dev/docs/install"
+        target="_blank"
+        rel="noopener"
+        >Get started with iii →</a
+      >
+    </header>
+
+    <main>
+      <a class="demo-card" href="space/">
+        <div class="emoji">🚀</div>
+        <h2>Space Sim</h2>
+        <p>
+          Two builds of a space game (iii + claude) from an identical prompt,
+          selectable on one page.
+        </p>
+        <span class="tag">./space</span>
+      </a>
+    </main>
+
+    <footer>Built with iii · iii.dev</footer>
+  </body>
+</html>
