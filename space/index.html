@@ -169,22 +169,8 @@
         transform: translateY(-2px);
         box-shadow: 0 8px 24px rgba(124, 77, 255, 0.4);
       }
-      /* Persistent CTA bar (below nav, always visible) */
-      #cta-bar {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 14px;
-        flex-wrap: wrap;
-        text-align: center;
-        padding: 12px 18px;
-        border-bottom: 1px solid #1e2b47;
-        background: rgba(10, 17, 32, 0.55);
-        color: #aab6d6;
-        font-size: 14px;
-      }
-      #cta-bar strong {
-        color: #e8ecf5;
+      .header-cta {
+        margin-left: auto;
       }
       /* Switcher bar (below the game window) */
       #switcher-bar {
@@ -356,18 +342,14 @@
   <body>
     <header>
       <h1>🚀 Space Sims</h1>
-    </header>
-
-    <div id="cta-bar">
-      <span>Want to build with the next generation of harnesses?</span>
       <a
-        class="cta-link"
+        class="cta-link header-cta"
         href="https://iii.dev/docs/install"
         target="_blank"
         rel="noopener"
         >Get started with iii →</a
       >
-    </div>
+    </header>
 
     <div id="chooser">
       <div class="card" data-game="iii">
