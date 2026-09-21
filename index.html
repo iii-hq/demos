@@ -189,6 +189,147 @@
       #cta-banner strong {
         color: #e8ecf5;
       }
+      /* Spec panel (tech-y side card) */
+      .spec-panel {
+        position: fixed;
+        right: 16px;
+        top: 84px;
+        width: 232px;
+        background: rgba(8, 14, 28, 0.85);
+        border: 1px solid #1f6feb;
+        border-radius: 10px;
+        padding: 14px 16px;
+        font-family: ui-monospace, Menlo, Consolas, monospace;
+        font-size: 12px;
+        color: #b9c7e6;
+        box-shadow: 0 0 24px rgba(31, 111, 235, 0.25);
+        backdrop-filter: blur(6px);
+        z-index: 20;
+      }
+      .spec-panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 10px;
+        background: repeating-linear-gradient(
+          0deg,
+          rgba(31, 111, 235, 0.05) 0px,
+          rgba(31, 111, 235, 0.05) 1px,
+          transparent 1px,
+          transparent 3px
+        );
+        pointer-events: none;
+      }
+      .spec-panel h3 {
+        margin: 0 0 10px;
+        font-size: 11px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #58a6ff;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .spec-panel h3::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #3fb950;
+        box-shadow: 0 0 8px #3fb950;
+      }
+      .spec-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 5px 0;
+        border-bottom: 1px dashed #1c2b47;
+      }
+      .spec-row:last-of-type {
+        border-bottom: 0;
+      }
+      .spec-row .k {
+        color: #6f7fa6;
+      }
+      .spec-row .v {
+        color: #e8ecf5;
+        text-align: right;
+      }
+      .spec-panel .prompt-btn {
+        margin-top: 12px;
+        width: 100%;
+        background: transparent;
+        border: 1px solid #1f6feb;
+        color: #58a6ff;
+        font: inherit;
+        padding: 7px;
+        border-radius: 6px;
+        cursor: pointer;
+        letter-spacing: 0.5px;
+        transition: background 0.15s;
+      }
+      .spec-panel .prompt-btn:hover {
+        background: rgba(31, 111, 235, 0.15);
+      }
+      @media (max-width: 760px) {
+        .spec-panel {
+          position: static;
+          width: auto;
+          margin: 16px;
+        }
+      }
+
+      /* Prompt overlay */
+      #prompt-overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(2, 5, 12, 0.7);
+        backdrop-filter: blur(3px);
+        z-index: 50;
+      }
+      #prompt-overlay.open {
+        display: flex;
+      }
+      #prompt-overlay .modal {
+        position: relative;
+        width: min(560px, 90vw);
+        max-height: 80vh;
+        overflow: auto;
+        background: #0a1120;
+        border: 1px solid #1f6feb;
+        border-radius: 12px;
+        box-shadow: 0 0 40px rgba(31, 111, 235, 0.35);
+        padding: 20px 22px;
+        font-family: ui-monospace, Menlo, Consolas, monospace;
+      }
+      #prompt-overlay .modal h3 {
+        margin: 0 0 12px;
+        color: #58a6ff;
+        font-size: 13px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+      #prompt-overlay pre {
+        white-space: pre-wrap;
+        word-break: break-word;
+        margin: 0;
+        color: #c9d6f0;
+        font-size: 13px;
+        line-height: 1.55;
+      }
+      #prompt-overlay .close {
+        position: absolute;
+        top: 12px;
+        right: 14px;
+        background: transparent;
+        border: 0;
+        color: #6f7fa6;
+        font-size: 20px;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -229,6 +370,31 @@
           rel="noopener"
           >Get started with iii →</a
         >
+      </div>
+    </div>
+
+    <aside class="spec-panel">
+      <h3>Build Spec</h3>
+      <div class="spec-row">
+        <span class="k">Prompt</span><span class="v">Identical</span>
+      </div>
+      <div class="spec-row">
+        <span class="k">Model</span><span class="v">Sonnet 5</span>
+      </div>
+      <div class="spec-row">
+        <span class="k">Thinking</span><span class="v">Minimal</span>
+      </div>
+      <div class="spec-row">
+        <span class="k">Time / build</span><span class="v">2-3 min</span>
+      </div>
+      <button class="prompt-btn" id="show-prompt">&gt; view prompt</button>
+    </aside>
+
+    <div id="prompt-overlay">
+      <div class="modal">
+        <button class="close" id="close-prompt" aria-label="Close">×</button>
+        <h3>Prompt (identical for both builds)</h3>
+        <pre id="prompt-text">TODO: paste the exact prompt here.</pre>
       </div>
     </div>
 
@@ -284,6 +450,21 @@
       // Deep-link support: #iii or #claude loads directly.
       const initial = location.hash.slice(1);
       if (GAMES[initial]) load(initial);
+
+      // Prompt overlay toggle (content filled in separately).
+      const overlay = document.getElementById("prompt-overlay");
+      document.getElementById("show-prompt").addEventListener("click", () => {
+        overlay.classList.add("open");
+      });
+      document.getElementById("close-prompt").addEventListener("click", () => {
+        overlay.classList.remove("open");
+      });
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) overlay.classList.remove("open");
+      });
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") overlay.classList.remove("open");
+      });
     </script>
   </body>
 </html>
