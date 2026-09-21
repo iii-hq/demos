@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Star Fighter</title>
+<style>
+  html,body{margin:0;padding:0;background:#000;height:100%;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;font-family:monospace;color:#fff;}
+  #wrap{position:relative;}
+  canvas{background:#000;image-rendering:pixelated;touch-action:none;
+    border:2px solid #444;display:block;}
+  #touch{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;}
+  .tbtn{position:absolute;pointer-events:auto;border-radius:50%;background:rgba(255,255,255,0.12);
+    border:2px solid rgba(255,255,255,0.35);color:#fff;font-size:14px;display:flex;
+    align-items:center;justify-content:center;user-select:none;}
+  @media (hover:hover){ #touch{display:none;} }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="game" width="480" height="640"></canvas>
+  <div id="touch">
+    <div class="tbtn" id="tLeft" style="left:10px;bottom:90px;width:60px;height:60px;">◀</div>
+    <div class="tbtn" id="tRight" style="left:80px;bottom:90px;width:60px;height:60px;">▶</div>
+    <div class="tbtn" id="tUp" style="left:45px;bottom:160px;width:60px;height:60px;">▲</div>
+    <div class="tbtn" id="tDown" style="left:45px;bottom:20px;width:60px;height:60px;">▼</div>
+    <div class="tbtn" id="tFire" style="right:20px;bottom:60px;width:80px;height:80px;">FIRE</div>
+    <div class="tbtn" id="tPause" style="right:20px;top:10px;width:44px;height:44px;">P</div>
+  </div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>

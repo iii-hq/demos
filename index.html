@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Space Sim - Pick a Build</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: radial-gradient(circle at 50% 0%, #14203a 0%, #05070f 70%);
+    color: #e8ecf5; font-family: system-ui, -apple-system, Segoe UI, Roboto, monospace;
+    min-height: 100%; display: flex; flex-direction: column;
+  }
+  header {
+    padding: 18px 20px; display: flex; align-items: center; gap: 16px;
+    border-bottom: 1px solid #1e2b47; flex-wrap: wrap;
+  }
+  header h1 { font-size: 18px; margin: 0; letter-spacing: .5px; }
+  header .sub { font-size: 12px; color: #8a97b5; }
+  .switcher { margin-left: auto; display: flex; gap: 8px; }
+  .switcher button {
+    background: #14203a; color: #cdd6ee; border: 1px solid #2a3c63;
+    padding: 8px 16px; border-radius: 8px; cursor: pointer; font: inherit; font-size: 13px;
+    transition: background .15s, border-color .15s;
+  }
+  .switcher button:hover { background: #1c2c4d; }
+  .switcher button.active { background: #2f6bff; border-color: #2f6bff; color: #fff; }
+
+  /* Chooser (shown when nothing selected) */
+  #chooser {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    gap: 24px; padding: 32px; flex-wrap: wrap;
+  }
+  .card {
+    width: 300px; max-width: 90vw; background: #0e192e; border: 1px solid #23324f;
+    border-radius: 14px; padding: 24px; cursor: pointer; text-align: center;
+    transition: transform .15s, border-color .15s, box-shadow .15s;
+  }
+  .card:hover { transform: translateY(-4px); border-color: #2f6bff; box-shadow: 0 12px 32px rgba(47,107,255,.25); }
+  .card .emoji { font-size: 46px; }
+  .card h2 { margin: 12px 0 6px; font-size: 20px; }
+  .card p { margin: 0; font-size: 13px; color: #90a0c4; line-height: 1.5; }
+  .card .tag { display: inline-block; margin-top: 14px; font-size: 11px; color: #6f7fa6;
+    border: 1px solid #2a3c63; border-radius: 999px; padding: 3px 10px; }
+
+  /* Stage (holds the iframe) */
+  #stage { flex: 1; display: none; position: relative; }
+  #stage iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
+  #loading {
+    position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
+    color: #8a97b5; font-size: 14px; background: #05070f;
+  }
+  /* iii CTA */
+  .cta-link {
+    display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+    background: linear-gradient(90deg, #2f6bff, #7c4dff); color: #fff;
+    padding: 9px 18px; border-radius: 999px; font-size: 13px; font-weight: 600;
+    border: 0; transition: transform .15s, box-shadow .15s;
+  }
+  .cta-link:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,77,255,.4); }
+  .header-cta { margin-left: 12px; }
+  #cta-banner {
+    width: 100%; display: flex; align-items: center; justify-content: center; gap: 14px;
+    flex-wrap: wrap; padding: 18px; margin-top: 8px; text-align: center;
+    color: #aab6d6; font-size: 14px;
+  }
+  #cta-banner strong { color: #e8ecf5; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🚀 Space Sim</h1>
+  <span class="sub">two builds, one page</span>
+  <div class="switcher">
+    <button data-game="iii">iii build</button>
+    <button data-game="claude">claude build</button>
+  </div>
+  <a class="cta-link header-cta" href="https://iii.dev/docs/install" target="_blank" rel="noopener">✨ Built with iii</a>
+</header>
+
+<div id="chooser">
+  <div class="card" data-game="iii">
+    <div class="emoji">🛸</div>
+    <h2>iii build</h2>
+    <p>Star Fighter - a vertical space shooter with touch controls.</p>
+    <span class="tag">./iii</span>
+  </div>
+  <div class="card" data-game="claude">
+    <div class="emoji">⚔️</div>
+    <h2>claude build</h2>
+    <p>Pixel Brawl - a pixel-art fighting game vs. CPU.</p>
+    <span class="tag">./claude</span>
+  </div>
+  <div id="cta-banner">
+    <span>Both builds were shipped on <strong>iii</strong>, the reactive agent runtime. Want to build your own?</span>
+    <a class="cta-link" href="https://iii.dev/docs/install" target="_blank" rel="noopener">Get started with iii →</a>
+  </div>
+</div>
+
+<div id="stage">
+  <div id="loading">Loading…</div>
+</div>
+
+<script>
+  const GAMES = {
+    iii:    { src: 'iii/index.html',    label: 'iii build' },
+    claude: { src: 'claude/index.html', label: 'claude build' },
+  };
+
+  const chooser = document.getElementById('chooser');
+  const stage = document.getElementById('stage');
+  const loading = document.getElementById('loading');
+  const buttons = [...document.querySelectorAll('.switcher button')];
+  let frame = null;
+
+  function load(game) {
+    if (!GAMES[game]) return;
+    chooser.style.display = 'none';
+    stage.style.display = 'block';
+    loading.style.display = 'flex';
+
+    // Dynamically (re)create the iframe so each build starts fresh.
+    if (frame) frame.remove();
+    frame = document.createElement('iframe');
+    frame.title = GAMES[game].label;
+    frame.setAttribute('allow', 'autoplay; fullscreen');
+    frame.addEventListener('load', () => { loading.style.display = 'none'; });
+    frame.src = GAMES[game].src;
+    stage.appendChild(frame);
+
+    buttons.forEach(b => b.classList.toggle('active', b.dataset.game === game));
+    if (location.hash.slice(1) !== game) location.hash = game;
+    document.title = GAMES[game].label + ' - Space Sim';
+  }
+
+  document.querySelectorAll('[data-game]').forEach(el => {
+    el.addEventListener('click', () => load(el.dataset.game));
+  });
+
+  window.addEventListener('hashchange', () => {
+    const g = location.hash.slice(1);
+    if (GAMES[g]) load(g);
+  });
+
+  // Deep-link support: #iii or #claude loads directly.
+  const initial = location.hash.slice(1);
+  if (GAMES[initial]) load(initial);
+</script>
+</body>
+</html>
